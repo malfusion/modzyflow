@@ -16,7 +16,7 @@ import Sidebar from './Sidebar';
 
 import './dnd.css';
 
-const initialElements = [{ id: '1', type: 'input', data: { label: 'input node' }, position: { x: 250, y: 5 } }];
+const initialElements = [{ id: '1', type: 'input', data: { label: 'input node' }, position: { x: 750, y: 50 } }];
 let _modelsList: any[] = [];
 
 const onDragOver = (event: DragEvent) => {
@@ -56,10 +56,10 @@ const DnDFlow = () => {
   };
 
 
-  useEffect(() => { 
-    console.log(elements);
-    console.log(modelsList);
-  }, [elements, modelsList])
+  // useEffect(() => { 
+  //   console.log(elements);
+  //   console.log(modelsList);
+  // }, [elements, modelsList])
 
   useEffect(() => { 
     refreshModels();

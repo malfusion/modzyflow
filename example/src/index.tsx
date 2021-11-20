@@ -143,9 +143,9 @@ const Header = withRouter(({ history, location }) => {
 
   return (
     <header>
-      <a className="logo" href="https://github.com/wbkd/react-flow">
-        React Flow Dev
-      </a>
+      <h2><a className="logo" href="https://modzy.com">
+        ModzyFlow
+      </a></h2>
       <select defaultValue={location.pathname} onChange={onChange}>
         {routes.map((route) => (
           <option value={route.path} key={route.path}>

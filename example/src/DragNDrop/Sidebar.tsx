@@ -7,9 +7,6 @@ const onDragStart = (event: DragEvent, nodeType: string, nodeObject: any) => {
 };
 
 const Sidebar = ({ onSave, onRun, onLoad, modelsList } : any ) => {
-
-  console.log(modelsList)
-
   return (
     <aside>
       <div className="description">You can drag these nodes to the pane on the left.</div>
@@ -31,37 +28,6 @@ const Sidebar = ({ onSave, onRun, onLoad, modelsList } : any ) => {
     </aside>
   );
 };
-
-
-// const getModels = () => {
-//   console.log("Running once");
-//   return [
-//     {
-//       "modelId": "model1id",
-//       "modelName": "Face Detection",
-//       "latestVersion": "0.0.1",
-//       "versions": [
-//         "0.0.1"
-//       ]
-//     },
-//     {
-//       "modelId": "model2id",
-//       "modelName": "Name Matching",
-//       "latestVersion": "0.0.1",
-//       "versions": [
-//         "0.0.1"
-//       ]
-//     },
-//     {
-//       "modelId": "model3id",
-//       "modelName": "Emotion Detection",
-//       "latestVersion": "0.0.1",
-//       "versions": [
-//         "0.0.1"
-//       ]
-//     }
-//   ];
-// }
 
 
 export default Sidebar;
