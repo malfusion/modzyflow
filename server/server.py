@@ -2,18 +2,14 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 
+from modzyapi.allmodels import *
 app = Flask(__name__)
-
-
 
 # GET
 @app.route("/listmodels")
 def listmodels():
-    return jsonify([{
-        "name": "somename",
-        "id": "someid" 
-    }])
-
+    models = all_models()
+    return jsonify(models) 
 
 # POST: ?flow=TestName
 # JSON will be sent in POST Body
