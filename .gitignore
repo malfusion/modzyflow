@@ -9,3 +9,11 @@ dist
 stats.html
 .eslintcache
 .idea
+.babelrc
+.gitattributes
+.github/
+.prettierignore
+.release-it.json
+.travis.yml
+.vscode/
+.pyc
