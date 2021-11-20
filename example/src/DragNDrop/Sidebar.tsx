@@ -21,8 +21,8 @@ const Sidebar = ({ onSave, onRun, onLoad, modelsList } : any ) => {
           {o.modelId}
         </div>
       })}
-      <button onClick={(event) => onSave("new_algo")}>Save</button>
-      <button onClick={(event) => onLoad("face_match")}>Load</button>
+      <button onClick={(event) => onSave(prompt())}>Save</button>
+      <button onClick={(event) => onLoad(prompt())}>Load</button>
       <button onClick={(event) => onRun()}>Run</button>
 
     </aside>

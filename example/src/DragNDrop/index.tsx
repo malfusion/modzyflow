@@ -66,15 +66,27 @@ const DnDFlow = () => {
   }, [])
 
   const loadWorkflow = (name: any) => {
-    if (name == "face_match"){
-      let wf = getWorkflow();
-      setElements((es) => wf);  
-      id = getWorkflow().length;
-    }
+    fetch('/api/loadflow?flow='+name)
+    .then(response => response.json())
+    .then(data => {
+      setElements((es) => data);
+      id = data.length;
+    });
+    // if (name == "face_match"){
+    //   let wf = getWorkflow();
+    //   setElements((es) => wf);  
+    //   id = getWorkflow().length;  
+    // }
   }
 
   const saveWorkflow = (name: any) => {
-    console.log(elements);
+    fetch('/api/saveflow?flow='+name, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(elements)
+    });
   }
 
   const runWorkflow = (name: any) => {
