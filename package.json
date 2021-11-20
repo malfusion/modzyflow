@@ -78,6 +78,7 @@
     "react": "16 || 17",
     "react-dom": "16 || 17"
   },
+  "proxy": "http://localhost:5000",
   "files": [
     "dist",
     "nocss"

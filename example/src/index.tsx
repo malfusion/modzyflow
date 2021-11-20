@@ -105,7 +105,7 @@ const routes = [
     component: SaveRestore,
   },
   {
-    path: '/drag-and-drop',
+    path: '/modzy-flow',
     component: DragNDrop,
   },
   {

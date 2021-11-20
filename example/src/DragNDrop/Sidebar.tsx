@@ -6,7 +6,10 @@ const onDragStart = (event: DragEvent, nodeType: string, nodeObject: any) => {
   event.dataTransfer.effectAllowed = 'move';
 };
 
-const Sidebar = ({ onSave, onRun, onLoad } : any ) => {
+const Sidebar = ({ onSave, onRun, onLoad, modelsList } : any ) => {
+
+  console.log(modelsList)
+
   return (
     <aside>
       <div className="description">You can drag these nodes to the pane on the left.</div>
@@ -16,9 +19,9 @@ const Sidebar = ({ onSave, onRun, onLoad } : any ) => {
       <div className="react-flow__node-output" onDragStart={(event: DragEvent) => onDragStart(event, 'output', {})} draggable>
         Output Node
       </div>
-      {getModels().map(function(o){
-        return <div className="react-flow__node-default" onDragStart={(event: DragEvent) => onDragStart(event, o.modelName, o)} draggable>
-          {o.modelName}
+      {modelsList.map(function(o: any){
+        return <div className="react-flow__node-default" onDragStart={(event: DragEvent) => onDragStart(event, o.modelId, o)} draggable>
+          {o.modelId}
         </div>
       })}
       <button onClick={(event) => onSave("new_algo")}>Save</button>
@@ -30,34 +33,35 @@ const Sidebar = ({ onSave, onRun, onLoad } : any ) => {
 };
 
 
-const getModels = () => {
-  return [
-    {
-      "modelId": "model1id",
-      "modelName": "Face Detection",
-      "latestVersion": "0.0.1",
-      "versions": [
-        "0.0.1"
-      ]
-    },
-    {
-      "modelId": "model2id",
-      "modelName": "Name Matching",
-      "latestVersion": "0.0.1",
-      "versions": [
-        "0.0.1"
-      ]
-    },
-    {
-      "modelId": "model3id",
-      "modelName": "Emotion Detection",
-      "latestVersion": "0.0.1",
-      "versions": [
-        "0.0.1"
-      ]
-    }
-  ];
-}
+// const getModels = () => {
+//   console.log("Running once");
+//   return [
+//     {
+//       "modelId": "model1id",
+//       "modelName": "Face Detection",
+//       "latestVersion": "0.0.1",
+//       "versions": [
+//         "0.0.1"
+//       ]
+//     },
+//     {
+//       "modelId": "model2id",
+//       "modelName": "Name Matching",
+//       "latestVersion": "0.0.1",
+//       "versions": [
+//         "0.0.1"
+//       ]
+//     },
+//     {
+//       "modelId": "model3id",
+//       "modelName": "Emotion Detection",
+//       "latestVersion": "0.0.1",
+//       "versions": [
+//         "0.0.1"
+//       ]
+//     }
+//   ];
+// }
 
 
 export default Sidebar;

@@ -33,6 +33,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "http://localhost:5000",
   "devDependencies": {
     "@types/dagre": "^0.7.46",
     "@types/localforage": "0.0.34",

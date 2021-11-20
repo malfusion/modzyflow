@@ -17,6 +17,7 @@ import Sidebar from './Sidebar';
 import './dnd.css';
 
 const initialElements = [{ id: '1', type: 'input', data: { label: 'input node' }, position: { x: 250, y: 5 } }];
+let _modelsList: any[] = [];
 
 const onDragOver = (event: DragEvent) => {
   event.preventDefault();
@@ -29,10 +30,12 @@ const getId = (): ElementId => `dndnode_${id++}`;
 const DnDFlow = () => {
   const [reactFlowInstance, setReactFlowInstance] = useState<OnLoadParams>();
   const [elements, setElements] = useState<Elements>(initialElements);
+  const [modelsList, setModelsList] = useState<Elements>(_modelsList);
 
   const onConnect = (params: Connection | Edge) => setElements((els) => addEdge(params, els));
   const onElementsRemove = (elementsToRemove: Elements) => setElements((els) => removeElements(elementsToRemove, els));
   const onLoad = (_reactFlowInstance: OnLoadParams) => setReactFlowInstance(_reactFlowInstance);
+  
 
   const onDrop = (event: DragEvent) => {
     event.preventDefault();
@@ -52,9 +55,15 @@ const DnDFlow = () => {
     }
   };
 
+
   useEffect(() => { 
     console.log(elements);
-  }, [elements])
+    console.log(modelsList);
+  }, [elements, modelsList])
+
+  useEffect(() => { 
+    refreshModels();
+  }, [])
 
   const loadWorkflow = (name: any) => {
     if (name == "face_match"){
@@ -73,6 +82,13 @@ const DnDFlow = () => {
     console.log("Output Results");
   }
 
+  const refreshModels = () => {
+    fetch('/api/listmodels')
+          .then(response => response.json())
+          .then(data => setModelsList(() => data));
+  }  
+
+
   return (
     <div className="dndflow">
       <ReactFlowProvider>
@@ -88,7 +104,7 @@ const DnDFlow = () => {
             <Controls />
           </ReactFlow>
         </div>
-        <Sidebar onLoad={loadWorkflow} onSave={saveWorkflow} onRun={runWorkflow}/>
+        <Sidebar onLoad={loadWorkflow} onSave={saveWorkflow} onRun={runWorkflow} modelsList={modelsList}/>
       </ReactFlowProvider>
     </div>
   );
