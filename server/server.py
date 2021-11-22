@@ -43,4 +43,6 @@ def loadflow():
 # Runs a given workflow
 @app.route("/api/runflow")
 def runflow():
-    return "<p>Hello, World!</p>"
+    workflow = Workflow(flow)
+    workflow.run()
+    return workflow.get_result()

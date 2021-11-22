@@ -1,0 +1,60 @@
+[
+    {
+        "id": "1",
+        "type": "input",
+        "data": {
+            "label": "input node"
+        },
+        "position": {
+            "x": 750,
+            "y": 50
+        }
+    },
+    {
+        "id": "dndnode_0",
+        "type": "z8qms2pgvx",
+        "position": {
+            "x": 828,
+            "y": 239
+        },
+        "data": {
+            "label": "z8qms2pgvx",
+            "nodeObject": {
+                "latestVersion": "4.1.0",
+                "modelId": "z8qms2pgvx",
+                "versions": [
+                    "1.0.0",
+                    "4.1.0"
+                ]
+            }
+        },
+        "className": "react-flow__node-default"
+    },
+    {
+        "source": "1",
+        "sourceHandle": null,
+        "target": "dndnode_0",
+        "targetHandle": null,
+        "id": "reactflow__edge-1null-dndnode_0null"
+    },
+    {
+        "id": "dndnode_1",
+        "type": "output",
+        "position": {
+            "x": 909,
+            "y": 468
+        },
+        "data": {
+            "label": "output",
+            "nodeObject": {}
+        },
+        "className": "react-flow__node-default"
+    },
+    {
+        "source": "dndnode_0",
+        "sourceHandle": null,
+        "target": "dndnode_1",
+        "targetHandle": null,
+        "id": "reactflow__edge-dndnode_0null-dndnode_1null"
+    }
+]
