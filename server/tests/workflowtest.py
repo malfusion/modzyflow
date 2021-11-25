@@ -6,6 +6,8 @@ from modzyapi.workflow import Workflow
 def simple_json_test():
     flowjson = _read_file("flowjson_simple.json")
     workflow = Workflow(flowjson)
+    print(workflow.nodeid_map)
+    print(workflow.adj)
     workflow.run()
 
 
