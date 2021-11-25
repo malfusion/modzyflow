@@ -3,14 +3,14 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 
-from modzyapi.allmodels import *
+from modzyapi.allmodels import ModzyFlowBackend
 app = Flask(__name__)
 
 workflows_dir = "./workflows"
 # GET
 @app.route("/api/listmodels")
 def listmodels():
-    models = all_models()
+    models = ModzyFlowBackend.all_models()
     return jsonify(models) 
 
 # POST: ?flow=TestName
