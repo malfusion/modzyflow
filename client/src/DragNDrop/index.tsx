@@ -89,9 +89,35 @@ const DnDFlow = () => {
     });
   }
 
-  const runWorkflow = (name: any) => {
-    console.log("Running");
-    console.log("Output Results");
+  const runWorkflow = async (name: any) => {
+    const input = await getWorkflowInput();
+    fetch('/api/runflow', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "flow": elements,
+        "input": input
+      })
+    })
+  }
+
+  const getWorkflowInput = async () => {
+    return await fetch('/api/getinputype', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(elements)
+    })
+    .then(response => response.text())
+    .then(data => {
+      if (data == "text/plain") {
+        const textinput = prompt()
+        return textinput
+      }
+    });
   }
 
   const refreshModels = () => {

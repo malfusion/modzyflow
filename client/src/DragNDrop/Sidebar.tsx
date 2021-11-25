@@ -17,8 +17,8 @@ const Sidebar = ({ onSave, onRun, onLoad, modelsList } : any ) => {
         Output Node
       </div>
       {modelsList.map(function(o: any){
-        return <div className="react-flow__node-default" onDragStart={(event: DragEvent) => onDragStart(event, o.modelId, o)} draggable>
-          {o.modelId}
+        return <div className="react-flow__node-default" onDragStart={(event: DragEvent) => onDragStart(event, o.model.name, o.model)} draggable>
+          {o.model.name}
         </div>
       })}
       <button onClick={(event) => onSave(prompt())}>Save</button>

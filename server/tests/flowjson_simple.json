@@ -12,21 +12,65 @@
     },
     {
         "id": "dndnode_0",
-        "type": "z8qms2pgvx",
+        "type": "Text Topic Modeling",
         "position": {
-            "x": 828,
-            "y": 239
+            "x": 868,
+            "y": 235
         },
         "data": {
-            "label": "z8qms2pgvx",
+            "label": "Text Topic Modeling",
             "nodeObject": {
-                "latestVersion": "4.1.0",
-                "modelId": "z8qms2pgvx",
-                "versions": [
-                    "1.0.0",
-                    "4.1.0"
-                ]
+                "author": "Modzy",
+                "description": "This unsupervised model identifies the main topics in a given text.",
+                "expirationDate": "2022-04-12T00:00:00.000+00:00",
+                "isActive": true,
+                "isCommercial": true,
+                "isExpired": false,
+                "isRecommended": false,
+                "lastActiveDateTime": "2021-11-25T19:37:53.694+00:00",
+                "modelId": "m8z2mwe3pt",
+                "name": "Text Topic Modeling",
+                "permalink": "m8z2mwe3pt-modzy-text-topic-modeling",
+                "tags": [
+                    {
+                        "dataType": "Input Type",
+                        "identifier": "text",
+                        "images": [],
+                        "isCategorical": true,
+                        "name": "Text"
+                    },
+                    {
+                        "dataType": "Task",
+                        "identifier": "label_or_classify",
+                        "images": [],
+                        "isCategorical": true,
+                        "name": "Label or Classify"
+                    },
+                    {
+                        "dataType": "Subject",
+                        "identifier": "language_and_text",
+                        "images": [],
+                        "isCategorical": true,
+                        "name": "Language and Text"
+                    }
+                ],
+                "visibility": {
+                    "scope": "ALL"
+                }
             }
+        },
+        "className": "react-flow__node-default"
+    },
+    {
+        "id": "dndnode_1",
+        "type": "output",
+        "position": {
+            "x": 785,
+            "y": 430
+        },
+        "data": {
+            "label": "output",
+            "nodeObject": {}
         },
         "className": "react-flow__node-default"
     },
@@ -36,19 +80,6 @@
         "target": "dndnode_0",
         "targetHandle": null,
         "id": "reactflow__edge-1null-dndnode_0null"
-    },
-    {
-        "id": "dndnode_1",
-        "type": "output",
-        "position": {
-            "x": 909,
-            "y": 468
-        },
-        "data": {
-            "label": "output",
-            "nodeObject": {}
-        },
-        "className": "react-flow__node-default"
     },
     {
         "source": "dndnode_0",

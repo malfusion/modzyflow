@@ -1,5 +1,6 @@
 import json
 from collections import defaultdict
+from modzyapi.backend import ModzyFlowBackend
 
 class Workflow:
     def __init__(self, flowjson_str):
@@ -28,18 +29,17 @@ class Workflow:
         self.source = self.source[0]
 
         
-        
-
     # Return "text", "image", "sound or "invalid"
     def get_input_type(self):
         # TODO
         connectedmodels = self.adj[self.source["id"]]
         if connectedmodels:
             model_id = self.nodeid_map[connectedmodels[0]]["data"]["nodeObject"]["modelId"]
-            print (model_id, "modelD")
+            model = ModzyFlowBackend.get_model_with_details(model_id)
+            return model["inputs"][0]["acceptedMediaTypes"]
     
     
-    def run(self):
+    def run(self, input):
         # TODO
         pass
 

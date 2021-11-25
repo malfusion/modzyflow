@@ -3,7 +3,7 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 import os
-
+from modzyapi.workflow import Workflow
 from modzyapi.backend import ModzyFlowBackend
 app = Flask(__name__)
 
@@ -11,7 +11,8 @@ workflows_dir = "./workflows"
 # GET
 @app.route("/api/listmodels")
 def listmodels():
-    models = ModzyFlowBackend.all_models()
+    models = ModzyFlowBackend.all_models_with_names()
+    print(len(models))
     return jsonify(models) 
 
 # POST: ?flow=TestName
@@ -42,15 +43,17 @@ def loadflow():
 
 # POST
 # Runs a given workflow
-@app.route("/api/runflow")
+@app.route("/api/runflow", methods=['POST'])
 def runflow():
+    body = request.get_json()
+    flow = json.dumps(body["flow"])
+    input = body["input"]
     workflow = Workflow(flow)
-    workflow.run()
+    workflow.run(input)
     return workflow.get_result()
 
 @app.route("/api/getinputype", methods=['POST'])
 def getinputype():
-    flow = request.get_json()
+    flow = json.dumps(request.get_json())
     workflow = Workflow(flow)
-    workflow.run()
-    return workflow.get_result()
+    return workflow.get_input_type()
