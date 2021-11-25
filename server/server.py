@@ -2,8 +2,9 @@ import json
 from flask import Flask
 from flask import jsonify
 from flask import request
+import os
 
-from modzyapi.allmodels import ModzyFlowBackend
+from modzyapi.backend import ModzyFlowBackend
 app = Flask(__name__)
 
 workflows_dir = "./workflows"
