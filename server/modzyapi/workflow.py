@@ -8,6 +8,7 @@ class Workflow:
         self.nodes = []
         self.adj = defaultdict(list) # nodeid -> [nodeids]
         self.nodeid_map = {}
+        self.source = None 
         # Run initialization functions
         if flowjson_str:
             self.parse_flow_json(flowjson_str)
@@ -22,13 +23,20 @@ class Workflow:
             self.nodeid_map[node["id"]] = node
         for edge in self.edges:
             self.adj[edge["source"]].append(edge["target"])
+        self.source = [item for item in self.nodes if item["type"]=="input"]
+        assert self.source is not None
+        self.source = self.source[0]
+
         
         
 
     # Return "text", "image", "sound or "invalid"
     def get_input_type(self):
         # TODO
-        pass
+        connectedmodels = self.adj[self.source["id"]]
+        if connectedmodels:
+            model_id = self.nodeid_map[connectedmodels[0]]["data"]["nodeObject"]["modelId"]
+            print (model_id, "modelD")
     
     
     def run(self):

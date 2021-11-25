@@ -46,3 +46,10 @@ def runflow():
     workflow = Workflow(flow)
     workflow.run()
     return workflow.get_result()
+
+@app.route("/api/getinputype", methods=['POST'])
+def getinputype():
+    flow = request.get_json()
+    workflow = Workflow(flow)
+    workflow.run()
+    return workflow.get_result()
