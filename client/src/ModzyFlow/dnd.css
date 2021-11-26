@@ -1,0 +1,89 @@
+.dndflow {
+  flex-direction: column;
+  display: flex;
+  height: 100%;
+}
+
+.dndflow aside {
+  border-right: 1px solid #eee;
+  padding: 15px 10px;
+  font-size: 14px;
+  background: #fcfcfc;
+}
+
+.dndflow aside > * {
+  margin-bottom: 10px;
+  cursor: grab;
+  font-size: 120%;
+}
+
+.dndflow aside .description {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.dndflow .reactflow-wrapper {
+  flex-grow: 1;
+  height: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .dndflow {
+    flex-direction: row;
+  }
+
+  .dndflow aside {
+    width: 30%;
+    max-width: 240px;
+    height: 100%;
+    overflow-y: scroll;
+  }
+}
+
+
+.btn{
+  text-align:center;
+  text-decoration: none;
+  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #FFF;
+  background: #0CADA7;
+  padding: 10px 16px;
+  display: inline-block;
+  white-space: nowrap;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin: 10px 5px;
+  border: 0px;
+  -webkit-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  }
+  .btn:hover {
+    background: #0A948F;
+  }
+
+  .centerer {
+    margin-left: 40px;
+  }
+
+  .dndflow aside .centerer .react-flow__node-input {
+    font-size: 18px !important;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .dndflow aside .centerer .react-flow__node-output {
+    font-size: 18px !important;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
+  .dndflow aside .centerer .react-flow__node-default {
+    font-size: 18px !important;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }

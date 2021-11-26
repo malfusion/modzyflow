@@ -20,7 +20,7 @@ import NodeTypesObjectChange from './NodeTypesObjectChange';
 import UpdatableEdge from './UpdatableEdge';
 import UpdateNode from './UpdateNode';
 import SaveRestore from './SaveRestore';
-import DragNDrop from './DragNDrop';
+import ModzyFlow from './ModzyFlow';
 import Layout from './Layouting';
 import SwitchFlows from './Switch';
 import UseZoomPanHelper from './UseZoomPanHelper';
@@ -34,108 +34,108 @@ import './index.css';
 const routes = [
   {
     path: '/',
-    component: Overview,
+    component: ModzyFlow,
   },
-  {
-    path: '/edges',
-    component: Edges,
-  },
-  {
-    path: '/custom-node',
-    component: CustomNode,
-  },
-  {
-    path: '/validation',
-    component: Validation,
-  },
-  {
-    path: '/provider',
-    component: Provider,
-  },
-  {
-    path: '/stress',
-    component: Stress,
-  },
-  {
-    path: '/interaction',
-    component: Interaction,
-  },
-  {
-    path: '/basic',
-    component: Basic,
-  },
-  {
-    path: '/empty',
-    component: Empty,
-  },
-  {
-    path: '/hidden',
-    component: Hidden,
-  },
-  {
-    path: '/edge-types',
-    component: EdgeTypes,
-  },
-  {
-    path: '/custom-connectionline',
-    component: CustomConnectionLine,
-  },
-  {
-    path: '/floating-edges',
-    component: FloatingEdges,
-  },
-  {
-    path: '/nodetype-change',
-    component: NodeTypeChange,
-  },
-  {
-    path: '/nodetypesobject-change',
-    component: NodeTypesObjectChange,
-  },
-  {
-    path: '/updatable-edge',
-    component: UpdatableEdge,
-  },
-  {
-    path: '/update-node',
-    component: UpdateNode,
-  },
-  {
-    path: '/save-restore',
-    component: SaveRestore,
-  },
-  {
-    path: '/modzy-flow',
-    component: DragNDrop,
-  },
-  {
-    path: '/layouting',
-    component: Layout,
-  },
-  {
-    path: '/switch',
-    component: SwitchFlows,
-  },
-  {
-    path: '/usezoompanhelper',
-    component: UseZoomPanHelper,
-  },
-  {
-    path: '/useupdatenodeinternals',
-    component: UseUpdateNodeInternals,
-  },
-  {
-    path: '/undirectional',
-    component: Undirectional,
-  },
-  {
-    path: '/multiflows',
-    component: MultiFlows,
-  },
-  {
-    path: '/draghandle',
-    component: DragHandle,
-  },
+  // {
+  //   path: '/edges',
+  //   component: Edges,
+  // },
+  // {
+  //   path: '/custom-node',
+  //   component: CustomNode,
+  // },
+  // {
+  //   path: '/validation',
+  //   component: Validation,
+  // },
+  // {
+  //   path: '/provider',
+  //   component: Provider,
+  // },
+  // {
+  //   path: '/stress',
+  //   component: Stress,
+  // },
+  // {
+  //   path: '/interaction',
+  //   component: Interaction,
+  // },
+  // {
+  //   path: '/basic',
+  //   component: Basic,
+  // },
+  // {
+  //   path: '/empty',
+  //   component: Empty,
+  // },
+  // {
+  //   path: '/hidden',
+  //   component: Hidden,
+  // },
+  // {
+  //   path: '/edge-types',
+  //   component: EdgeTypes,
+  // },
+  // {
+  //   path: '/custom-connectionline',
+  //   component: CustomConnectionLine,
+  // },
+  // {
+  //   path: '/floating-edges',
+  //   component: FloatingEdges,
+  // },
+  // {
+  //   path: '/nodetype-change',
+  //   component: NodeTypeChange,
+  // },
+  // {
+  //   path: '/nodetypesobject-change',
+  //   component: NodeTypesObjectChange,
+  // },
+  // {
+  //   path: '/updatable-edge',
+  //   component: UpdatableEdge,
+  // },
+  // {
+  //   path: '/update-node',
+  //   component: UpdateNode,
+  // },
+  // {
+  //   path: '/save-restore',
+  //   component: SaveRestore,
+  // },
+  // {
+  //   path: '/modzy-flow',
+  //   component: DragNDrop,
+  // },
+  // {
+  //   path: '/layouting',
+  //   component: Layout,
+  // },
+  // {
+  //   path: '/switch',
+  //   component: SwitchFlows,
+  // },
+  // {
+  //   path: '/usezoompanhelper',
+  //   component: UseZoomPanHelper,
+  // },
+  // {
+  //   path: '/useupdatenodeinternals',
+  //   component: UseUpdateNodeInternals,
+  // },
+  // {
+  //   path: '/undirectional',
+  //   component: Undirectional,
+  // },
+  // {
+  //   path: '/multiflows',
+  //   component: MultiFlows,
+  // },
+  // {
+  //   path: '/draghandle',
+  //   component: DragHandle,
+  // },
 ];
 
 const Header = withRouter(({ history, location }) => {
@@ -146,13 +146,13 @@ const Header = withRouter(({ history, location }) => {
       <h2><a className="logo" href="https://modzy.com">
         ModzyFlow
       </a></h2>
-      <select defaultValue={location.pathname} onChange={onChange}>
+      {/* <select defaultValue={location.pathname} onChange={onChange}>
         {routes.map((route) => (
           <option value={route.path} key={route.path}>
             {route.path === '/' ? 'overview' : route.path.substr(1, route.path.length)}
           </option>
         ))}
-      </select>
+      </select> */}
     </header>
   );
 });

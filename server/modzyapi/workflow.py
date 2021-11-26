@@ -41,5 +41,8 @@ class Workflow:
     
     def run(self, input):
         # TODO
-        pass
+        connectedmodels = self.adj[self.source["id"]]
+        if connectedmodels:
+            model_id = self.nodeid_map[connectedmodels[0]]["data"]["nodeObject"]["modelId"]
+            return ModzyFlowBackend.run_model_with_text(model_id, input)
 

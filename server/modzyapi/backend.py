@@ -44,5 +44,14 @@ class ModzyFlowBackend:
         model = CLIENT.models.get(model_id)
         return model
 
+    def run_model_with_text(model_id, input):
+        model = ModzyFlowBackend.get_model_with_details(model_id)
+        job = CLIENT.jobs.submit_text(model_id, model["version"], {"test1": { model["inputs"][0]["name"]: input } })
+        CLIENT.jobs.block_until_complete(job)
+        result = CLIENT.results.get(job)
+        return result["results"]["test1"][model["outputs"][0]["name"]]
+        
+        
+
 
     
