@@ -49,8 +49,8 @@ def runflow():
     flow = json.dumps(body["flow"])
     input = body["input"]
     workflow = Workflow(flow)
-    workflow.run(input)
-    return workflow.get_result()
+    outputs = workflow.run(input)
+    return outputs
 
 @app.route("/api/getinputype", methods=['POST'])
 def getinputype():

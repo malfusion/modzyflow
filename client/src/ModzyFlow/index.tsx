@@ -91,7 +91,7 @@ const DnDFlow = () => {
 
   const runWorkflow = async (name: any) => {
     const input = await getWorkflowInput();
-    fetch('/api/runflow', {
+    const res = await fetch('/api/runflow', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -100,7 +100,8 @@ const DnDFlow = () => {
         "flow": elements,
         "input": input
       })
-    })
+    });
+    console.log(res);
   }
 
   const getWorkflowInput = async () => {

@@ -10,13 +10,13 @@ dotenv.load_dotenv()
 BASE_URL = 'https://app.modzy.com/api'
 API_KEY = 'UekSgeQNOl22F8LtHCWu.KfnyQp94bIeYmrUEiHDM'
 CLIENT = ApiClient(base_url=BASE_URL, api_key=API_KEY)
-
+OUTPUT_LOOKUP = {"rs2qqwbjwb": lambda x: "summary", "aevbu1h3yw": lambda x: x.get("top5_classes", [])[0]}
 
 class ModzyFlowBackend:
 
     def all_models_with_names():
         import requests
-        url = BASE_URL + "/models/all/versions/all?search=text"
+        url = BASE_URL + "/models/all/versions/all?search=image"
         headers = {
             "Accept": "application/json",
             "Authorization": "ApiKey " + API_KEY
@@ -49,9 +49,23 @@ class ModzyFlowBackend:
         job = CLIENT.jobs.submit_text(model_id, model["version"], {"test1": { model["inputs"][0]["name"]: input } })
         CLIENT.jobs.block_until_complete(job)
         result = CLIENT.results.get(job)
-        return result["results"]["test1"][model["outputs"][0]["name"]]
+        print (model["outputs"][0]["name"])
+        output = result["results"]["test1"][model["outputs"][0]["name"]]
+        if model_id in OUTPUT_LOOKUP:
+            output = OUTPUT_LOOKUP[model_id](output)
         
-        
+        return output 
 
+    def run_model_with_filepath(model_id, file_path):
+        model = ModzyFlowBackend.get_model_with_details(model_id)
+        job = CLIENT.jobs.submit_file(model_id, model["version"], {"test1": { model["inputs"][0]["name"]: file_path } })
+        CLIENT.jobs.block_until_complete(job)
+        result = CLIENT.results.get(job)
+        print (model["outputs"][0]["name"])
+        output = result["results"]["test1"][model["outputs"][0]["name"]]
+        if model_id in OUTPUT_LOOKUP:
+            output = OUTPUT_LOOKUP[model_id](output)
+        
+        return output 
 
     
