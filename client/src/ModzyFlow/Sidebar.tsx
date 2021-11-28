@@ -6,9 +6,10 @@ const onDragStart = (event: DragEvent, nodeType: string, nodeObject: any) => {
   event.dataTransfer.effectAllowed = 'move';
 };
 
-const Sidebar = ({ onSave, onRun, onLoad, modelsList } : any ) => {
+const Sidebar = ({ onSave, onRun, onLoad, modelsList, workflowTitle} : any ) => {
   return (
     <aside>
+      <p>Current Flow: <strong> {workflowTitle || "None"} </strong></p>
       <button className="btn" onClick={(event) => onSave(prompt("Save workflow as:"))}>Save</button>
       <button className="btn" onClick={(event) => onLoad(prompt("Enter name of the workflow to load:"))}>Load</button>
       <button className="btn" onClick={(event) => onRun()}>Run</button>

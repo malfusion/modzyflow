@@ -40,11 +40,6 @@ class Workflow:
     
     
     def run(self, input):
-        # TODO
-        # connectedmodels = self.adj[self.source["id"]]
-        # if connectedmodels:
-        #     model_id = self.nodeid_map[connectedmodels[0]]["data"]["nodeObject"]["modelId"]
-        #     return ModzyFlowBackend.run_model_with_text(model_id, input)
         visited = set()
         outputs = {}
         self.dfs(self.source, visited, input, outputs)
@@ -60,7 +55,7 @@ class Workflow:
             output = input
         else:
             model_id = node["data"]["nodeObject"]["modelId"]
-            output = ModzyFlowBackend.run_model_with_text(model_id, input)
+            output = ModzyFlowBackend.run_model(model_id, input)
         
         for neighborID in self.adj[node["id"]]:
             if neighborID not in visited:

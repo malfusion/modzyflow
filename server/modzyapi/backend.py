@@ -44,8 +44,15 @@ class ModzyFlowBackend:
         model = CLIENT.models.get(model_id)
         return model
 
-    def run_model_with_text(model_id, input):
+    def run_model(model_id, input):
         model = ModzyFlowBackend.get_model_with_details(model_id)
+        inputtype = model["inputs"][0]["acceptedMediaTypes"]
+        if "text" in inputtype:
+            return ModzyFlowBackend.run_model_with_text(model, model_id, input)
+        if "image" in inputtype:
+            return ModzyFlowBackend.run_model_with_fileintarray(model, model_id, input)
+
+    def run_model_with_text(model, model_id, input):
         job = CLIENT.jobs.submit_text(model_id, model["version"], {"test1": { model["inputs"][0]["name"]: input } })
         CLIENT.jobs.block_until_complete(job)
         result = CLIENT.results.get(job)
@@ -53,11 +60,9 @@ class ModzyFlowBackend:
         output = result["results"]["test1"][model["outputs"][0]["name"]]
         if model_id in OUTPUT_LOOKUP:
             output = OUTPUT_LOOKUP[model_id](output)
-        
         return output 
 
-    def run_model_with_filepath(model_id, file_path):
-        model = ModzyFlowBackend.get_model_with_details(model_id)
+    def run_model_with_filepath(model, model_id, file_path):
         job = CLIENT.jobs.submit_file(model_id, model["version"], {"test1": { model["inputs"][0]["name"]: file_path } })
         CLIENT.jobs.block_until_complete(job)
         result = CLIENT.results.get(job)
@@ -65,7 +70,17 @@ class ModzyFlowBackend:
         output = result["results"]["test1"][model["outputs"][0]["name"]]
         if model_id in OUTPUT_LOOKUP:
             output = OUTPUT_LOOKUP[model_id](output)
-        
+        return output 
+    
+    def run_model_with_fileintarray(model, model_id, file_int_array):
+        file_bytes = bytearray(file_int_array)
+        job = CLIENT.jobs.submit_file(model_id, model["version"], {"test1": { model["inputs"][0]["name"]: file_bytes } })
+        CLIENT.jobs.block_until_complete(job)
+        result = CLIENT.results.get(job)
+        print (model["outputs"][0]["name"])
+        output = result["results"]["test1"][model["outputs"][0]["name"]]
+        if model_id in OUTPUT_LOOKUP:
+            output = OUTPUT_LOOKUP[model_id](output)
         return output 
 
     

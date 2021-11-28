@@ -16,7 +16,7 @@ import Sidebar from './Sidebar';
 
 import './dnd.css';
 
-const initialElements = [{ id: '1', type: 'input', data: { label: 'input node' }, position: { x: 350, y: 50 } }];
+const initialElements = [{ id: '1', type: 'input', data: { label: 'input node' }, position: { x: 150, y: 50 } }];
 let _modelsList: any[] = [];
 
 const onDragOver = (event: DragEvent) => {
@@ -25,12 +25,14 @@ const onDragOver = (event: DragEvent) => {
 };
 
 let id = 0;
-const getId = (): ElementId => `dndnode_${id++}`;
+const getId = (): ElementId => `dndnode_${id++}`
 
 const DnDFlow = () => {
+  var _workflow_title = "";
   const [reactFlowInstance, setReactFlowInstance] = useState<OnLoadParams>();
   const [elements, setElements] = useState<Elements>(initialElements);
-  const [modelsList, setModelsList] = useState<Elements>(_modelsList);
+  const [modelsList, setModelsList] = useState(_modelsList);
+  const [workflowTitle, setWorkflowTitle] = useState<string>(_workflow_title);
 
   const onConnect = (params: Connection | Edge) => setElements((els) => addEdge({animated:true, ...params}, els));
   const onElementsRemove = (elementsToRemove: Elements) => setElements((els) => removeElements(elementsToRemove, els));
@@ -66,10 +68,13 @@ const DnDFlow = () => {
   }, [])
 
   const loadWorkflow = (name: any) => {
+    if (name == undefined)
+      return
     fetch('/api/loadflow?flow='+name)
     .then(response => response.json())
     .then(data => {
       setElements((es) => data);
+      setWorkflowTitle(() => name);
       id = data.length;
     });
     // if (name == "face_match"){
@@ -80,17 +85,61 @@ const DnDFlow = () => {
   }
 
   const saveWorkflow = (name: any) => {
+    if (name == undefined) {
+      return
+    }
     fetch('/api/saveflow?flow='+name, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(elements)
+    }).then(() => {
+      setWorkflowTitle(() => name);
     });
+  }
+
+  const getFile = () => {
+    return new Promise((res, rej) => {
+      const inp = document.getElementById("myInput");
+      if (inp != undefined){
+        var fileByteArray: number[] = [];
+        inp.click();
+        inp.addEventListener('change', function() {
+          var reader = new FileReader();
+          reader.readAsArrayBuffer((this as HTMLInputElement).files![0]);
+          console.log("asdasdasdas")
+          reader.onloadend = function (evt) {
+            console.log("vxcvxcv")
+              if (evt.target!.readyState == FileReader.DONE) {
+                var arrayBuffer = evt.target!.result,
+                    array = new Uint8Array(arrayBuffer as ArrayBuffer);
+                for (var i = 0; i < array.length; i++) {
+                    fileByteArray.push(array[i]);
+                }
+                return res(fileByteArray);
+              }
+          }
+          // var reader = new FileReader();
+          // reader.onload = function() {
+        
+          //   var arrayBuffer = this.result;
+          //   var array = new Uint8Array(arrayBuffer as ArrayBuffer);
+          //   console.log(array)
+          //   var binaryString = String.fromCharCode.apply(null, array as any);
+          //   return res(binaryString);
+          // }
+          // if ((this as HTMLInputElement).files == undefined)
+          //   return rej("No files found")
+          // reader.readAsArrayBuffer((this as HTMLInputElement).files![0]);
+        }, false);
+      }
+    })
   }
 
   const runWorkflow = async (name: any) => {
     const input = await getWorkflowInput();
+    console.log("inptu, ", input)
     const res = await fetch('/api/runflow', {
       method: 'POST',
       headers: {
@@ -114,10 +163,10 @@ const DnDFlow = () => {
     })
     .then(response => response.text())
     .then(data => {
-      if (data == "text/plain") {
-        const textinput = prompt()
-        return textinput
-      }
+      if (data == "text/plain")
+        return prompt("Enter text content to be used as input");
+      if (data.indexOf("image") >= 0)
+        return getFile();
     });
   }
 
@@ -143,7 +192,8 @@ const DnDFlow = () => {
             <Controls />
           </ReactFlow>
         </div>
-        <Sidebar onLoad={loadWorkflow} onSave={saveWorkflow} onRun={runWorkflow} modelsList={modelsList}/>
+        <input id="myInput" type="file" style={{visibility:"hidden"}} />
+        <Sidebar onLoad={loadWorkflow} onSave={saveWorkflow} onRun={runWorkflow} modelsList={modelsList} workflowTitle={workflowTitle}/>
       </ReactFlowProvider>
     </div>
   );
