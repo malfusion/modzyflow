@@ -36,11 +36,11 @@
 }
 
 .dndflow .reactflow-wrapper {
-  flex-grow: 0.8;
+  flex-grow: 1.0;
 }
 
 .dndflow .output  {
-  flex-grow: 0.2;
+  flex-grow: 0.0;
   background-color: skyblue;
   padding: 10px 20px;
   overflow-y: scroll;
