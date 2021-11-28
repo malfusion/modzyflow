@@ -16,7 +16,7 @@ import Sidebar from './Sidebar';
 
 import './dnd.css';
 
-const initialElements = [{ id: '1', type: 'input', data: { label: 'input node' }, position: { x: 150, y: 50 } }];
+const initialElements = [{ id: '1', type: 'input', data: { label: 'Input Node' }, position: { x: 150, y: 50 } }];
 let _modelsList: any[] = [];
 
 const onDragOver = (event: DragEvent) => {
@@ -29,10 +29,12 @@ const getId = (): ElementId => `dndnode_${id++}`
 
 const DnDFlow = () => {
   var _workflow_title = "";
+  var _flow_results = {};
   const [reactFlowInstance, setReactFlowInstance] = useState<OnLoadParams>();
   const [elements, setElements] = useState<Elements>(initialElements);
   const [modelsList, setModelsList] = useState(_modelsList);
   const [workflowTitle, setWorkflowTitle] = useState<string>(_workflow_title);
+  const [flowResults, setFlowResults] = useState<any>(_flow_results);
 
   const onConnect = (params: Connection | Edge) => setElements((els) => addEdge({animated:true, ...params}, els));
   const onElementsRemove = (elementsToRemove: Elements) => setElements((els) => removeElements(elementsToRemove, els));
@@ -40,6 +42,7 @@ const DnDFlow = () => {
 
 
   const onDrop = (event: DragEvent) => {
+    console.log("flow", flowResults)
     event.preventDefault();
 
     if (reactFlowInstance) {
@@ -149,8 +152,9 @@ const DnDFlow = () => {
         "flow": elements,
         "input": input
       })
-    });
+    }).then((resp) => resp.json());
     console.log(res);
+    setFlowResults(() => res);
   }
 
   const getWorkflowInput = async () => {
@@ -180,17 +184,35 @@ const DnDFlow = () => {
   return (
     <div className="dndflow">
       <ReactFlowProvider>
-        <div className="reactflow-wrapper">
-          <ReactFlow
-            elements={elements}
-            onConnect={onConnect}
-            onElementsRemove={onElementsRemove}
-            onLoad={onLoad}
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-          >
-            <Controls />
-          </ReactFlow>
+        <div className="wrapper">
+          <div className="reactflow-wrapper">
+            <ReactFlow
+              elements={elements}
+              onConnect={onConnect}
+              onElementsRemove={onElementsRemove}
+              onLoad={onLoad}
+              onDrop={onDrop}
+              onDragOver={onDragOver}
+            >
+              <Controls />
+            </ReactFlow>
+          </div>
+          <div className="output">
+            <p className="title">Outputs:</p>
+            
+            {
+
+              
+              Object.entries(flowResults).map(([key, value]) => {
+                return <p> <strong>{key} :  </strong> {JSON.stringify(value)} </p>
+                // Pretty straightforward - use key for the key and value for the value.
+                // Just to clarify: unlike object destructuring, the parameter names don't matter here.
+            })
+            // [...flowResults.keys()].map(key => {
+            //     <p> { key } : {flowResults[key]} </p>
+            // }) 
+            }
+          </div>
         </div>
         <input id="myInput" type="file" style={{visibility:"hidden"}} />
         <Sidebar onLoad={loadWorkflow} onSave={saveWorkflow} onRun={runWorkflow} modelsList={modelsList} workflowTitle={workflowTitle}/>

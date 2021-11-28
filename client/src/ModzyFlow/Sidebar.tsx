@@ -15,9 +15,9 @@ const Sidebar = ({ onSave, onRun, onLoad, modelsList, workflowTitle} : any ) => 
       <button className="btn" onClick={(event) => onRun()}>Run</button>
       <div className="description">Drag and drop models to the left pane.</div>
       <div className="centerer">
-        <div className="react-flow__node-input" onDragStart={(event: DragEvent) => onDragStart(event, 'input', {})} draggable>
+        {/* <div className="react-flow__node-input" onDragStart={(event: DragEvent) => onDragStart(event, 'input', {})} draggable>
           Input Node
-        </div>
+        </div> */}
         <div className="react-flow__node-output" onDragStart={(event: DragEvent) => onDragStart(event, 'output', {})} draggable>
           Output Node
         </div>

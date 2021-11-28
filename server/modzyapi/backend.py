@@ -10,13 +10,13 @@ dotenv.load_dotenv()
 BASE_URL = 'https://app.modzy.com/api'
 API_KEY = 'UekSgeQNOl22F8LtHCWu.KfnyQp94bIeYmrUEiHDM'
 CLIENT = ApiClient(base_url=BASE_URL, api_key=API_KEY)
-OUTPUT_LOOKUP = {"rs2qqwbjwb": lambda x: "summary", "aevbu1h3yw": lambda x: x.get("top5_classes", [])[0]}
+OUTPUT_LOOKUP = {"rs2qqwbjwb": lambda x: x["summary"], "aevbu1h3yw": lambda x: x.get("top5_classes", [])[0]}
 
 class ModzyFlowBackend:
 
     def all_models_with_names():
         import requests
-        url = BASE_URL + "/models/all/versions/all?search=image"
+        url = BASE_URL + "/models/all/versions/all?search=text"
         headers = {
             "Accept": "application/json",
             "Authorization": "ApiKey " + API_KEY
