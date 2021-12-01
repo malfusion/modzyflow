@@ -1,4 +1,4 @@
-import React, { useState, DragEvent, useEffect } from 'react';
+import React, { useState, DragEvent, useEffect, MouseEvent } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -12,8 +12,13 @@ import ReactFlow, {
   Node,
 } from 'react-flow-renderer';
 
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import Button from '@material-ui/core/Button';
 import Sidebar from './Sidebar';
-
+import { Typography, Popover } from "@material-ui/core";
 import './dnd.css';
 
 const initialElements = [{ id: '1', type: 'input', data: { label: 'Input Node' }, position: { x: 150, y: 50 } }];
@@ -24,22 +29,44 @@ const onDragOver = (event: DragEvent) => {
   event.dataTransfer.dropEffect = 'move';
 };
 
+
 let id = 0;
 const getId = (): ElementId => `dndnode_${id++}`
 
 const DnDFlow = () => {
   var _workflow_title = "";
   var _flow_results = {};
+  var _status = "Ready";
+  var _popoverContent = "";
   const [reactFlowInstance, setReactFlowInstance] = useState<OnLoadParams>();
   const [elements, setElements] = useState<Elements>(initialElements);
   const [modelsList, setModelsList] = useState(_modelsList);
   const [workflowTitle, setWorkflowTitle] = useState<string>(_workflow_title);
   const [flowResults, setFlowResults] = useState<any>(_flow_results);
+  const [status, setStatus] = useState<any>(_status);
+  const [popoverContent, setPopoverContent] = useState<any>(_popoverContent);
 
   const onConnect = (params: Connection | Edge) => setElements((els) => addEdge({animated:true, ...params}, els));
   const onElementsRemove = (elementsToRemove: Elements) => setElements((els) => removeElements(elementsToRemove, els));
   const onLoad = (_reactFlowInstance: OnLoadParams) => {_reactFlowInstance.setTransform({ x: 0, y: 0, zoom: 2.0 }); setReactFlowInstance(_reactFlowInstance); };
 
+  const onClick = (event: MouseEvent, element: any) => {
+    if (element.type == "output") {
+      setAnchorEl(event.target as any);
+      const nodeId = element.id;
+      setPopoverContent(() => JSON.stringify(flowResults[nodeId]));
+    }
+  }
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const popoverId = open ? "simple-popover" : undefined;
 
   const onDrop = (event: DragEvent) => {
     console.log("flow", flowResults)
@@ -101,6 +128,7 @@ const DnDFlow = () => {
       setWorkflowTitle(() => name);
     });
   }
+  
 
   const getFile = () => {
     return new Promise((res, rej) => {
@@ -141,8 +169,9 @@ const DnDFlow = () => {
   }
 
   const runWorkflow = async (name: any) => {
+    setStatus(() => "Running");
+    setFlowResults(() => { return {}; });
     const input = await getWorkflowInput();
-    console.log("inptu, ", input)
     const res = await fetch('/api/runflow', {
       method: 'POST',
       headers: {
@@ -155,6 +184,7 @@ const DnDFlow = () => {
     }).then((resp) => resp.json());
     console.log(res);
     setFlowResults(() => res);
+    setStatus(() => "Success");
   }
 
   const getWorkflowInput = async () => {
@@ -185,7 +215,7 @@ const DnDFlow = () => {
     <div className="dndflow">
       <ReactFlowProvider>
         <div className="wrapper">
-          <div className="reactflow-wrapper">
+          <div className={`reactflow-wrapper ${status == "Success" ? "success" : ""}`} >
             <ReactFlow
               elements={elements}
               onConnect={onConnect}
@@ -193,25 +223,48 @@ const DnDFlow = () => {
               onLoad={onLoad}
               onDrop={onDrop}
               onDragOver={onDragOver}
+              onElementClick={(event, element) => {
+                onClick(event, element);
+              }}
             >
               <Controls />
             </ReactFlow>
-          </div>
-          <div className="output">
-            <p className="title">Outputs:</p>
-            
-            {
-
+            <Popover
+              id={popoverId}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center"
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center"
+              }}
+            >
+              <Card variant="outlined">
+              <CardHeader
+                subheader="Result of execution"
+              />
+              <CardContent >
+                <Typography>
+                  {popoverContent}
+                </Typography>
+              </CardContent>
               
+            </Card>
+            </Popover>
+          </div>
+          <div className={`output ${status == "Success" ? "success" : ""}`}>
+            <p className="title">Status: {status}...</p>
+            
+            {/* {              
               Object.entries(flowResults).map(([key, value]) => {
                 return <p> <strong>{key} :  </strong> {JSON.stringify(value)} </p>
-                // Pretty straightforward - use key for the key and value for the value.
-                // Just to clarify: unlike object destructuring, the parameter names don't matter here.
-            })
-            // [...flowResults.keys()].map(key => {
-            //     <p> { key } : {flowResults[key]} </p>
-            // }) 
-            }
+            }) */}
+
+            
           </div>
         </div>
         <input id="myInput" type="file" style={{visibility:"hidden"}} />

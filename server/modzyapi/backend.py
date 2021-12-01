@@ -8,15 +8,19 @@ from modzy import ApiClient
 
 dotenv.load_dotenv()
 BASE_URL = 'https://app.modzy.com/api'
-API_KEY = 'UekSgeQNOl22F8LtHCWu.KfnyQp94bIeYmrUEiHDM'
+API_KEY = 'pRGes4GQdDBjHyJh9bfc.9oVlsN25ybt12RgwuvyG'
 CLIENT = ApiClient(base_url=BASE_URL, api_key=API_KEY)
-OUTPUT_LOOKUP = {"rs2qqwbjwb": lambda x: x["summary"], "aevbu1h3yw": lambda x: x.get("top5_classes", [])[0]}
+OUTPUT_LOOKUP = {
+    "rs2qqwbjwb": lambda x: x["summary"], 
+    "i2gapn1wh7": lambda x: x["text"],
+    "0ae5bb52ec": lambda x: x["plate"],
+    "aevbu1h3yw": lambda x: x.get("top5_classes", [])[0]}
 
 class ModzyFlowBackend:
 
     def all_models_with_names():
         import requests
-        url = BASE_URL + "/models/all/versions/all?search=text"
+        url = BASE_URL + "/models/all/versions/all?per-page=60"
         headers = {
             "Accept": "application/json",
             "Authorization": "ApiKey " + API_KEY
@@ -56,6 +60,7 @@ class ModzyFlowBackend:
         job = CLIENT.jobs.submit_text(model_id, model["version"], {"test1": { model["inputs"][0]["name"]: input } })
         CLIENT.jobs.block_until_complete(job)
         result = CLIENT.results.get(job)
+        print(result)
         print (model["outputs"][0]["name"])
         output = result["results"]["test1"][model["outputs"][0]["name"]]
         if model_id in OUTPUT_LOOKUP:

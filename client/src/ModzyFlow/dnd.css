@@ -39,12 +39,30 @@
   flex-grow: 1.0;
 }
 
+
+.dndflow .reactflow-wrapper.success .react-flow__node-output {
+  border-color: greenyellow;
+  background: rgba(169, 230, 169);
+}
+
+.dndflow .reactflow-wrapper.success .react-flow__node-output .react-flow__handle{
+  background: greenyellow;
+}
+
+
+
 .dndflow .output  {
-  flex-grow: 0.0;
+  flex-grow: 0.07;
+  width: 100%;
   background-color: skyblue;
-  padding: 10px 20px;
+  padding: 0px 30px;
   overflow-y: scroll;
   color: white;
+}
+
+.dndflow .output.success  {
+  background: rgba(169, 230, 169);
+
 }
 
 @media screen and (min-width: 768px) {
@@ -54,10 +72,10 @@
 
   .dndflow aside {
     flex-grow: 1;
-    flex-basis: 240px;
+    flex-basis: 260px;
     width: 30%;
-    min-width: 240px;
-    max-width: 240px;
+    min-width: 260px;
+    max-width: 260px;
     height: 100%;
     overflow-y: scroll;
   }
@@ -114,5 +132,17 @@
   
 
   .output .title {
-    font-size: 24px;
+    font-size: 20px;
+  }
+
+  #simple-popover .MuiCardHeader-root {
+    background: #37b5ff;
+  }
+
+  .MuiCard-root {
+    width: 300px
+  }
+  
+  .MuiCardContent-root {
+    overflow-wrap: break-word;
   }
